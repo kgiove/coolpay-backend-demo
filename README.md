@@ -18,11 +18,13 @@ You will write a small app that uses Coolplay API in a language of your choice. 
 - Check whether a payment was successful
 
 ## Architecture
-Maven, Jersey, Java8, Tomcat, Gson
+Maven, Jersey, Java 8, Tomcat, Gson
 
 ## Deploy
 Create the war file that will be deployed under Tomcat.
-<root project>/mvn clean install
+ ```
+ <root project>/mvn clean install
+ ```
 
 
 

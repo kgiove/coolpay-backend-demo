@@ -1,9 +1,12 @@
 package com.facebook.coolpay.utils;
-
+/**
+ * @author KGiove
+ */
 import java.net.URI;
 import java.util.Map;
 
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.UriBuilder;
 
 import com.google.gson.Gson;
@@ -34,10 +37,10 @@ public class CoolpayApiUtils {
 		return builder.build();
 	}
 	
-	public static void validateResponse(Response response){
+	public static void validateResponse(Response response, Status code){
 		Response.StatusType statusInfo = response.getStatusInfo();
-    	if (!statusInfo.equals(Response.Status.OK)) {
-    		throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());   
+    	if (!statusInfo.equals(code)) {
+    		throw new RuntimeException("Failed : HTTP error code not expected  : " + response.getStatus());   
     	}
 	}
 }

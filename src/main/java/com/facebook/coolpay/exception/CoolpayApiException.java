@@ -1,10 +1,9 @@
 package com.facebook.coolpay.exception;
-
+/**
+ * @author KGiove
+ */
 public class CoolpayApiException extends RuntimeException {
 
-    /**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	public CoolpayApiException(String message, Exception e) {

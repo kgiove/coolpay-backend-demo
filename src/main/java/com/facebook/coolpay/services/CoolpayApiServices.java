@@ -1,5 +1,7 @@
 package com.facebook.coolpay.services;
-
+/**
+ * @author KGiove
+ */
 import static com.facebook.coolpay.utils.CoolpayApiUtils.getTarget;
 import static com.facebook.coolpay.utils.CoolpayApiUtils.prepareJsonPayload;
 import static com.facebook.coolpay.utils.CoolpayApiUtils.prepareToken;
@@ -21,6 +23,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
 import com.facebook.coolpay.exception.CoolpayApiException;
 import com.facebook.coolpay.exception.CoolpayInvalidLoginException;
@@ -39,7 +42,7 @@ import com.facebook.coolpay.utils.CoolpayServicesApi;
  * Root resource (exposed at "CoolpayApiServices" path)
  */
 @Path("services")
-public class CoolpayApiServices implements CoolpayServicesApi {
+public class CoolpayApiServices implements CoolpayServicesApi {	
 
 	 /**
      * Provide to login to Coolpay API.
@@ -50,18 +53,20 @@ public class CoolpayApiServices implements CoolpayServicesApi {
     @POST
 	@Path("/login")
     @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
 	@Override
-	public String login(LoginPayload request) {
+	public LoginResponse login(LoginPayload request) {
     	
     	try {
+    		URI target = getTarget(CoolpayApiUrls.LOGIN_API.getEndpoint());
     		Client client = ClientBuilder.newClient();
         	Entity<String> payload = Entity.json(prepareJsonPayload(request));    	
-        	Response response = client.target(CoolpayApiUrls.LOGIN_API.getEndpoint()).request(MediaType.APPLICATION_JSON_TYPE).post(payload);
-        	validateResponse(response);
+        	Response response = client.target(target).request(MediaType.APPLICATION_JSON_TYPE).post(payload);
+        	validateResponse(response, Status.OK);
         	LoginResponse loginResponse = response.readEntity(LoginResponse.class);
-            return loginResponse.getToken();
+            return loginResponse;
         } catch (Exception e) {
-            throw new CoolpayInvalidLoginException("Invalid username or ApiKey ", e);
+            throw new CoolpayInvalidLoginException("Login has failed. Check, please your username or ApiKey ", e);
         }	
 	}
     
@@ -74,6 +79,7 @@ public class CoolpayApiServices implements CoolpayServicesApi {
     @GET
    	@Path("/recipients/{token}{p:/?}{name:.*}")	
 	@Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
     @Override
 	public List<Recipient> getRecipientList(@PathParam("token") String token, @PathParam("name") String name) {
 		// TODO Auto-generated method stub
@@ -86,7 +92,7 @@ public class CoolpayApiServices implements CoolpayServicesApi {
     		URI target = getTarget(CoolpayApiUrls.RECIPIENT_API.getEndpoint(), parameters);
         	Client client = ClientBuilder.newClient();        	
 			Response response = client.target(target).request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", prepareToken(token)).get();
-			validateResponse(response);
+			validateResponse(response, Status.OK);
         	RecipientListResponse recipientListResponse = response.readEntity(RecipientListResponse.class);
             return recipientListResponse.getRecipients();
         } catch (Exception e){
@@ -114,7 +120,7 @@ public class CoolpayApiServices implements CoolpayServicesApi {
 			Client client = ClientBuilder.newClient();
 			Entity<String> payload = Entity.json(prepareJsonPayload(request));
 			Response response = client.target(target).request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", prepareToken(token)).post(payload);
-			validateResponse(response);
+			validateResponse(response, Status.CREATED);
 			RecipientPayload recipientBody = response.readEntity(RecipientPayload.class);
 			return recipientBody.getRecipient();
 
@@ -141,7 +147,7 @@ public class CoolpayApiServices implements CoolpayServicesApi {
 			Client client = ClientBuilder.newClient();
 			Entity<String> payload = Entity.json(prepareJsonPayload(request));
 			Response response = client.target(target).request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", prepareToken(token)).post(payload);
-			validateResponse(response);
+			validateResponse(response, Status.CREATED);
 			PaymentPayload paymentBody = response.readEntity(PaymentPayload.class);
 			return paymentBody.getPayment();			
 		} catch (Exception e) {
@@ -157,6 +163,7 @@ public class CoolpayApiServices implements CoolpayServicesApi {
 	@GET
    	@Path("/payments/{token}")
 	@Produces(MediaType.APPLICATION_JSON)
+	@Consumes(MediaType.APPLICATION_JSON)
     @Override
 	public PaymenListResponse getPaymentList(@PathParam("token") String token) {
 		// TODO Auto-generated method stub
@@ -164,7 +171,7 @@ public class CoolpayApiServices implements CoolpayServicesApi {
 			URI target = getTarget(CoolpayApiUrls.PAYMENTS_API.getEndpoint());
 			Client client = ClientBuilder.newClient();
 			Response response = client.target(target).request(MediaType.APPLICATION_JSON_TYPE).header("Authorization", prepareToken(token)).get();	
-			validateResponse(response);
+			validateResponse(response, Status.OK);
 			PaymenListResponse paymenListResponse = response.readEntity(PaymenListResponse.class);
             return paymenListResponse;
 		} catch (Exception e) {

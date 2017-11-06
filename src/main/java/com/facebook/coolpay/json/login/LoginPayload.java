@@ -1,14 +1,11 @@
 package com.facebook.coolpay.json.login;
-
+/**
+ * @author KGiove
+ */
 public class LoginPayload {
 
-    private final String username;
-    private final String apikey;
-
-    public LoginPayload(String username, String apikey) {
-        this.username = username;
-        this.apikey = apikey;
-    }
+    private String username;
+    private String apikey;
 
     public String getUsername() {
         return username;

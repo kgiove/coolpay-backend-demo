@@ -1,5 +1,7 @@
 package com.facebook.coolpay.json.payment;
-
+/**
+ * @author KGiove
+ */
 import java.util.List;
 
 public class PaymenListResponse {

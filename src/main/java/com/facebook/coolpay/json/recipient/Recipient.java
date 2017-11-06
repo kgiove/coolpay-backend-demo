@@ -1,5 +1,7 @@
 package com.facebook.coolpay.json.recipient;
-
+/**
+ * @author KGiove
+ */
 public class Recipient {
 
     private String name;
