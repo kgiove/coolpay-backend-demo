@@ -26,15 +26,8 @@ Create the war file that will be deployed under Tomcat.
  <root project>/mvn clean install
  ```
 ## Test the app
-I used postman as HTTP client for testing the API
-The API tested have been the following:
-- http://localhost:8080/coolpay-backend-demo/webapi/services/login
-- http://localhost:8080/coolpay-backend-demo/webapi/services/createRecipient/{token}
-- http://localhost:8080/coolpay-backend-demo/webapi/services/recipients/{token}
-- http://localhost:8080/coolpay-backend-demo/webapi/services/recipients/{token}/{name}
-- http://localhost:8080/coolpay-backend-demo/webapi/services/createPayment/{token}
-- http://localhost:8080/coolpay-backend-demo/webapi/services/payments/{token}
+I used postman as HTTP client for testing the API.
 
 ## TODO
- - Implement Tests 
+ - Implement Tests
  - Implement front end (I was thinking to do that with Angular JS)
