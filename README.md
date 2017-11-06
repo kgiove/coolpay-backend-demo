@@ -17,6 +17,10 @@ You will write a small app that uses Coolplay API in a language of your choice. 
 - Send them money
 - Check whether a payment was successful
 
+## Credentials
+Username: <KevinG>
+API Key: <BC230BA3C6AD681A>
+
 ## Architecture
 Maven, Jersey, Java 8, Tomcat 8, Gson
 
