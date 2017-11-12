@@ -23,18 +23,18 @@ Username: <KevinG>
 API Key: <BC230BA3C6AD681A>
  ```
 
-
 ## Architecture
-Maven, Jersey, Java 8, Tomcat 8, Gson
+Maven, Jersey, Java 8, Tomcat 8, Gson, wiremock
 
-## Deploy
-Create the war file that will be deployed under Tomcat.
+## Test
+Created junit tests.
+Created Integration Test using the credentials provided.
  ```
  <root project>/mvn clean install
  ```
-## Test the app
-I used postman as HTTP client for testing the API.
+
+I used wiremock to run my test.
+You can find the related documentation here: http://wiremock.org/
 
 ## TODO
- - Implement Tests
  - Implement front end (I was thinking to do that with Angular JS)
